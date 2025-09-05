@@ -31,6 +31,42 @@ def load_dataset(csv_path: str = None, df: pd.DataFrame = None) -> pd.DataFrame:
 
     return df
 
+def group_dataset(csv_path: str = None, df: pd.DataFrame = None, group_by: str = None) -> pd.DataFrame:
+    """
+    Load the ecosystem dataset from CSV or an existing DataFrame.
+
+    Parameters
+    ----------
+    csv_path : str, optional
+        Path to the CSV file. Required if df is not provided.
+    df : pandas.DataFrame, optional
+        A DataFrame with the required columns:
+        ['ID', 'Ecosystem', 'Season', 'P_conc', 'Ca_conc', 'flux_gm2yr'].
+
+    Returns
+    -------
+    pandas.DataFrame
+        A cleaned DataFrame with categorical types applied.
+    """
+    if df is None:
+        if csv_path is None:
+            raise ValueError("Provide either a CSV file path or a DataFrame.")
+        df = pd.read_csv(csv_path)
+
+    # Ensure correct dtypes
+    if "Ecosystem" in df.columns:
+        df["Ecosystem"] = df["Ecosystem"].astype("category")
+    if "Season" in df.columns:
+        df["Season"] = df["Season"].astype("category")
+
+    # Return grouped object if requested
+    if group_by:
+        if group_by not in df.columns:
+            raise ValueError(f"group_by must be a column in DataFrame. Got '{group_by}'.")
+        return df.groupby(group_by, observed=True) # this isn't great
+
+    return df
+
 def visualize_dataset(csv_path: str = None, df: pd.DataFrame = None, group_by: str = "Ecosystem") -> None:
     """
     Visualize ecosystem dataset using pandas and matplotlib.
