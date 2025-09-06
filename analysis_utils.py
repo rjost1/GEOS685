@@ -136,3 +136,54 @@ def visualize_dataset(csv_path: str = None, df: pd.DataFrame = None, group_by: s
     plt.xlabel("P concentration")
     plt.ylabel("Flux (g/m²/yr)")
     plt.show()
+
+def convert_area(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convert an area measurement between square meters, square kilometers,
+    acres, and hectares.
+
+    Parameters
+    ----------
+    value : float
+        The numeric value of the area to convert.
+    from_unit : str
+        The unit of the input value. Must be one of:
+        "m2", "km2", "acre", "hectare".
+    to_unit : str
+        The target unit to convert to. Must be one of:
+        "m2", "km2", "acre", "hectare".
+
+    Returns
+    -------
+    float
+        The converted area in the target unit.
+
+    Examples
+    --------
+    >>> convert_area(10000, "m2", "hectare")
+    1.0
+    >>> convert_area(2, "acre", "m2")
+    8093.712
+    >>> convert_area(1, "km2", "acre")
+    247.105
+    """
+    # Conversion factors to square meters
+    factors_to_m2 = {
+        "m2": 1,
+        "km2": 1_000_000,       # 1 km² = 1,000,000 m²
+        "hectare": 10_000,      # 1 hectare = 10,000 m²
+        "acre": 4046.8564224,   # 1 acre ≈ 4046.8564224 m²
+    }
+
+    from_unit = from_unit.lower()
+    to_unit = to_unit.lower()
+
+    if from_unit not in factors_to_m2 or to_unit not in factors_to_m2:
+        raise ValueError("Units must be one of: 'm2', 'km2', 'hectare', 'acre'")
+
+    # Convert to square meters first
+    value_in_m2 = value * factors_to_m2[from_unit]
+
+    # Then convert from m² to target unit
+    return value_in_m2 / factors_to_m2[to_unit]
+
