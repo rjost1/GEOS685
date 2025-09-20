@@ -67,6 +67,59 @@ def group_dataset(csv_path: str = None, df: pd.DataFrame = None, group_by: str =
 
     return df
 
+def visualize_dataset(csv_path: str = None, df: pd.DataFrame = None, group_by: str = None, value_col: str = None, scatter_x: str = None, scatter_y: str = None) -> None:
+    """
+    General function to visualize a dataset using pandas and matplotlib.
+
+    Parameters
+    ----------
+    csv_path : str, optional
+        Path to the CSV file. Required if df is not provided.
+    df : pandas.DataFrame, optional
+        DataFrame to visualize. If not provided, will load from csv_path.
+    group_by : str, optional
+        Column to group by in plots (e.g., categorical variable).
+    value_col : str, optional
+        Column to use for boxplot values.
+    scatter_x : str, optional
+        Column for x-axis in scatter plots.
+    scatter_y : str, optional
+        Column for y-axis in scatter plots.
+
+    Returns
+    -------
+    None
+        Displays matplotlib plots (no return value).
+    """
+    if df is None:
+        if csv_path is None:
+            raise ValueError("Provide either a CSV file path or a DataFrame.")
+        df = pd.read_csv(csv_path)
+
+    # Boxplot by group
+    if group_by and value_col:
+        plt.figure(figsize=(8, 5))
+        df.boxplot(column=value_col, by=group_by, grid=False)
+        plt.title(f"{value_col} by {group_by}")
+        plt.suptitle("")
+        plt.xlabel(group_by)
+        plt.ylabel(value_col)
+        plt.show()
+
+    # Scatter plot
+    if scatter_x and scatter_y:
+        plt.figure(figsize=(7, 6))
+        if group_by:
+            for key, group in df.groupby(group_by):
+                plt.scatter(group[scatter_x], group[scatter_y], label=key, alpha=0.7)
+            plt.legend(title=group_by)
+        else:
+            plt.scatter(df[scatter_x], df[scatter_y], c="blue", alpha=0.7)
+        plt.title(f"{scatter_y} vs {scatter_x}{' by ' + group_by if group_by else ''}")
+        plt.xlabel(scatter_x)
+        plt.ylabel(scatter_y)
+        plt.show()
+
 def visualize_dataset(csv_path: str = None, df: pd.DataFrame = None, group_by: str = "Ecosystem") -> None:
     """
     Visualize ecosystem dataset using pandas and matplotlib.

@@ -1,0 +1,10 @@
+﻿Site,Vegetation,MeanNPPobs_gCm−2yr−1,Precipitation_cm,MAT_C,C:N 
+Mid-west Agricultrual , Corn,839,99,11.23,10
+Mid-west Agricultrual , Soybean,379,99,11.23,11
+Temperate Forest, Deciduous Forest,679,111,8.31,24
+Temperate Forest, Conifer Forest,552,111,8.31,37
+Temperate Conifer, Conifer Forest,356,44,7.75,40
+Boreal Forest, Upland Black Spruce,251,52,-3.2,60
+Boreal Forest, Open Black Spruce,181,52,-3.2,50
+Arctic Plain, Grassland,64,5,-10.91,25
+Desert grassland, Grassland,54,35,13.57,24
