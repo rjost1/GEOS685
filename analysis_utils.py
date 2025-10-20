@@ -3,15 +3,14 @@ import matplotlib.pyplot as plt
 
 def load_dataset(csv_path: str = None, df: pd.DataFrame = None) -> pd.DataFrame:
     """
-    Load the ecosystem dataset from CSV or an existing DataFrame.
+    Load a dataset from CSV or an existing DataFrame.
 
     Parameters
     ----------
     csv_path : str, optional
         Path to the CSV file. Required if df is not provided.
     df : pandas.DataFrame, optional
-        A DataFrame with the required columns:
-        ['ID', 'Ecosystem', 'Season', 'P_conc', 'Ca_conc', 'flux_gm2yr'].
+        A Pandas DataFrame
 
     Returns
     -------
@@ -23,7 +22,7 @@ def load_dataset(csv_path: str = None, df: pd.DataFrame = None) -> pd.DataFrame:
             raise ValueError("Provide either a CSV file path or a DataFrame.")
         df = pd.read_csv(csv_path)
 
-    # Ensure correct dtypes
+    # Ensure correct dtypes - make this generic
     if "Ecosystem" in df.columns:
         df["Ecosystem"] = df["Ecosystem"].astype("category")
     if "Season" in df.columns:
@@ -33,7 +32,7 @@ def load_dataset(csv_path: str = None, df: pd.DataFrame = None) -> pd.DataFrame:
 
 def group_dataset(csv_path: str = None, df: pd.DataFrame = None, group_by: str = None) -> pd.DataFrame:
     """
-    Load the ecosystem dataset from CSV or an existing DataFrame.
+    group the CSV or an existing DataFrame.
 
     Parameters
     ----------
@@ -69,7 +68,7 @@ def group_dataset(csv_path: str = None, df: pd.DataFrame = None, group_by: str =
 
 def visualize_dataset(csv_path: str = None, df: pd.DataFrame = None, group_by: str = None, value_col: str = None, scatter_x: str = None, scatter_y: str = None) -> None:
     """
-    General function to visualize a dataset using pandas and matplotlib.
+    General function to visualize a dataset as a scatter plot using pandas and matplotlib.
 
     Parameters
     ----------
